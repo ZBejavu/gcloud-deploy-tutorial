@@ -73,10 +73,12 @@ visit the external-ip:yourportnumber to view your application
 
     # # Create Rule To allow access to the port your app is running on.
 
-    #  #ONLY INCLUDE if it doesnt already exist for SERVER_PORT !!
+    # # ONLY INCLUDE if it doesnt already exist for SERVER_PORT !!
     # - name: Create Firewall Rule
     #   run: make create-firewall-rule
 ```
+
+** Friendly tip : Make sure all migration table names are consistent.
 
 ## Resources:
 
