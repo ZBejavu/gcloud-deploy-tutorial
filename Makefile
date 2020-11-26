@@ -30,7 +30,7 @@ deploy:
 	@echo "creating network..."
 	-$(MAKE) network-init
 	@echo "initializing sql (if exists, continue on error)..."
-	-${MAKE} sql-init
+	-$(MAKE) sql-init
 	@echo "stopping old container..."
 	-$(MAKE) ssh-cmd CMD='docker container stop $(CONTAINER_NAME)'
 	@echo "removing old container..."
