@@ -61,6 +61,11 @@ open your project in vscode, in your root directory run ->
 Visit Compue Engine -> VM Instances to view your app when workflow finished succesfully  
 visit the external-ip:yourportnumber to view your application
 
+### After instance Creation & Firewall Rule Creation -
+- Mark out the Firewall Rule in Docker-Deploy.yml
+- Mark out the 'Create instance' in Docker-Deploy.yml  
+** these steps are only designed for first time use.
+
 ## Resources:
 
 [https://www.youtube.com/watch?v=OXE2a8dqIAI&t=2637s](https://www.youtube.com/watch?v=OXE2a8dqIAI&t=2637s) - Great Video, Understanding the Docker-Deploy.yml file, Makefile
