@@ -1,6 +1,6 @@
 # Google Cloud Deploy Tutorial
 ## Deploying a Fullstack React App + Express.js + MySQL
-### automatically deploy on every event(default is push) to the branch of your choice.
+### Automatically Deploy on every event (default is push) to the branch of your choice.
 
 
 
@@ -13,13 +13,13 @@
         2. Compute Instance Admin (v1)
         3. Service Account User
         4. Storage Admin
-3. Create Key for the service account you've created -> select in JSON format.
-    1. change filename to "key.json" and use your terminal cd into the folder where your key was downloaded.
-    2. encrypt the file -> 
+3. Create a Key for the service account you've created -> Select in JSON format.
+    1. Change filename to "key.json" and use your terminal cd into the folder where your key was downloaded.
+    2. Encrypt the file -> 
     - windows: `certutil -encode key.json tmp.b64 && findstr /v /c:- tmp.b64 > key.b64`
     - linux: `	base64 key.json > key.b64`
     - macOs: `	base64 -i key.json -o key.b64`
-4. head over to your repository on github, go to Settings -> Secrets and ADD the following secrets :
+4. Head over to your repository on github, go to Settings -> Secrets and ADD the following Secrets :
 - DB_HOST -> MySql Host name (of your choice)
 - DB_PASS -> MySql Password (of your choice)
 - DB_NAME -> MySql Database (of your choice)
@@ -39,14 +39,14 @@ open your project in vscode, in your root directory run ->
     - Dockerfile, docker-compose, Makefile, .dockerignore
 - Create a script in your Server Package.json file as described in the Dockerfile.
 - Configure Your Sequelize Config as Shown in the examples/config folder
-- MAKE SURE your server Serves the Build files as Shows in the examples/server/app.js
+- MAKE SURE your server Serves the Build files as Shown in the examples/server/app.js
 - Specify in Docker-Deploy.yml :
     1. The Deploy Branch (deploy will happen when you push to that branch)
     2. Name your Instance (GCE_INSTANCE Variable)
     3. Enter your SERVER_PORT
 - Delete the 'gcloud-deploy-tutorial' directory when you've finished setting up.
 
-** the Dockerfile and workflow were both made for client folder named 'client' and server folder named 'server'  
+** The Dockerfile and workflow were both made for client folder named 'client' and server folder named 'server'  
 ** Change folder names if necessary, update Port number in the Dockerfile, compose file and Workflow file if needed.
 
 ### Check To see Your Containerised app works :
