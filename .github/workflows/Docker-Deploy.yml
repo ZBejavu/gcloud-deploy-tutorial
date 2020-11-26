@@ -13,6 +13,7 @@ env:
   DB_PASS: ${{ secrets.DB_PASS }}
   DB_USER: ${{ secrets.DB_USER }}
   DB_HOST: ${{ secrets.DB_HOST }}
+  DB_NAME: ${{ secrets.DB_NAME }}
   SERVER_PORT: 8080 # the port your server is running on
 
 jobs:
