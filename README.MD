@@ -16,9 +16,9 @@
 3. Create Key for the service account you've created -> select in JSON format.
     1. change filename to "key.json" and use your terminal cd into the folder where your key was downloaded.
     2. encrypt the file -> 
-    - windows: <code>certutil -encode key.json tmp.b64 && findstr /v /c:- tmp.b64 > key.b64</code>
-    - linux: <code>	base64 key.json > key.b64</code>
-    - macOs: <code>	base64 -i key.json -o key.b64</code>
+    - windows: `certutil -encode key.json tmp.b64 && findstr /v /c:- tmp.b64 > key.b64`
+    - linux: `	base64 key.json > key.b64`
+    - macOs: `	base64 -i key.json -o key.b64`
 4. head over to your repository on github, go to Settings -> Secrets and ADD the following secrets :
 - DB_HOST -> MySql Host name (of your choice)
 - DB_PASS -> MySql Password (of your choice)
@@ -31,7 +31,7 @@
 <a href="https://console.cloud.google.com/flows/enableapi?apiid=containerregistry.googleapis.com,compute.googleapis.com">Enable Compute Engine API + Container Registry For Your Project</a>
 
 open your project in vscode, in your root directory run ->  
-<code> git clone https://github.com/ZBejavu/gcloud-deploy-tutorial.git </code>
+` git clone https://github.com/ZBejavu/gcloud-deploy-tutorial.git `
 
 ## Adaptations :
 - Copy -> into your project root folder :
@@ -51,10 +51,10 @@ open your project in vscode, in your root directory run ->
 
 ### Check To see Your Containerised app works :
 - In your client folder: 
-    - <code>npm ci --only=production</code>
-    - <code>CI=false INLINE_RUNTIME_CHUNK=false npm run build</code>
+    - `npm ci --only=production`
+    - `CI=false INLINE_RUNTIME_CHUNK=false npm run build`
 - In your root folder:
-    - <code>docker-compose build && docker-compose up</code>
+    - `docker-compose build && docker-compose up`
 
 ## Commit + Push to github, Watch Your Workflow in Actions tab 
 *** <b>(push changes to MASTER / the branch you want the deploy to happen at )</b>  
@@ -65,6 +65,18 @@ visit the external-ip:yourportnumber to view your application
 - Mark out the Firewall Rule in Docker-Deploy.yml
 - Mark out the 'Create instance' in Docker-Deploy.yml  
 ** these steps are only designed for first time use.
+
+``` yml
+    # # Create a new instance -> MARK IT OUT AFTER FIRST DEPLOY
+    # - name: Create Instance #for first time setup
+    #   run: make create
+
+    # # Create Rule To allow access to the port your app is running on.
+
+    #  #ONLY INCLUDE if it doesnt already exist for SERVER_PORT !!
+    # - name: Create Firewall Rule
+    #   run: make create-firewall-rule
+```
 
 ## Resources:
 
