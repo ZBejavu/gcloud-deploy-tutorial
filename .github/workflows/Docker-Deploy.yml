@@ -15,6 +15,7 @@ env:
   DB_HOST: ${{ secrets.DB_HOST }}
   DB_NAME: ${{ secrets.DB_NAME }}
   SERVER_PORT: 8080 # the port your server is running on
+  # SECRET_NAME: ${{ secrets.SECRET_NAME}} # ADD all additional Secrets Here
 
 jobs:
   setup-build-publish-deploy:
@@ -25,7 +26,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Setup Cloud SDK
+    - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@master
       with:
         version: '290.0.1' # optional, if not provided -> resolves to latest version
@@ -34,8 +35,7 @@ jobs:
 
     # helper for authentication
     - name: Configure Docker to use gcloud command-line
-    - run: |-
-        gcloud --quiet auth configure-docker
+      run: gcloud --quiet auth configure-docker
 
     # Create a new instance -> MARK IT OUT AFTER FIRST DEPLOY
     - name: Create Instance #for first time setup

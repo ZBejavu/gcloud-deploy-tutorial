@@ -5,7 +5,7 @@ CONTAINER_NAME=app-container
 
 ssh-cmd:
 	@gcloud --quiet compute ssh \
-		--zone ${ZONE} ${GCE_INSTANCE} --command "$(CMD)"
+		--zone $(ZONE) ${GCE_INSTANCE} --command "$(CMD)"
 
 build:
 	docker build -t $(LOCAL_TAG) .
@@ -49,6 +49,8 @@ deploy:
 			'
 	@echo "Good Job Deploy Succeded !"
 
+## ADD Your Secrets Above ! -e SECRET_NAME=${SECRET_NAME} \ 
+
 network-init:
 	$(MAKE) ssh-cmd CMD='docker network create my-network'
 
@@ -61,11 +63,11 @@ create-firewall-rule:
 
 sql-init:
 	$(MAKE) ssh-cmd CMD=' \
-	docker run --name=${DB_HOST} \
-	-e MYSQL_ROOT_PASSWORD=${DB_PASS} \
-	-e MYSQL_DATABASE=${DB_NAME} \
-	-e MYSQL_USER=${DB_USER} \
-	-e MYSQL_PASSWORD=${DB_PASS} \
-	--network my-network \
-	-d mysql:8 \
-	'
+		docker run --name=${DB_HOST} \
+			-e MYSQL_ROOT_PASSWORD=${DB_PASS} \
+			-e MYSQL_DATABASE=${DB_NAME} \
+			-e MYSQL_USER=${DB_USER} \
+			-e MYSQL_PASSWORD=${DB_PASS} \
+			--network my-network \
+			-d mysql:8 \
+			'
