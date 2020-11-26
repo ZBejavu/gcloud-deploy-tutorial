@@ -50,5 +50,16 @@ open your project in vscode, in your root directory run ->
 ** Change folder names if necessary, update Port number in the Dockerfile, compose file and Workflow file if needed.
 
 ## Commit + Push to github, Watch Your Workflow in Actions tab 
+*** <b>(push changes to MASTER / the branch you want the deploy to happen at )</b>  
 Visit Compue Engine -> VM Instances to view your app when workflow finished succesfully  
-visit the external-ip:yourportnumber to view your application  
+visit the external-ip:yourportnumber to view your application
+
+## Resources:
+
+[https://www.youtube.com/watch?v=OXE2a8dqIAI&t=2637s](https://www.youtube.com/watch?v=OXE2a8dqIAI&t=2637s) - Great Video, Understanding the Docker-Deploy.yml file, Makefile
+
+[https://cloud.google.com/sdk/gcloud/reference/compute/instances/create](https://cloud.google.com/sdk/gcloud/reference/compute/instances/create) - Instance create documentation
+
+[https://github.com/google-github-actions/setup-gcloud](https://github.com/google-github-actions/setup-gcloud) - gcloud @action documentation
+
+[https://www.youtube.com/watch?v=0B2raYYH2fE&t=232s](https://www.youtube.com/watch?v=0B2raYYH2fE&t=232s) - Quick docker-compose explanation
