@@ -49,6 +49,13 @@ open your project in vscode, in your root directory run ->
 ** the Dockerfile and workflow were both made for client folder named 'client' and server folder named 'server'  
 ** Change folder names if necessary, update Port number in the Dockerfile, compose file and Workflow file if needed.
 
+### Check To see Your Containerised app works :
+- In your client folder: 
+    - <code>npm ci --only=production</code>
+    - <code>CI=false INLINE_RUNTIME_CHUNK=false npm run build</code>
+- In your root folder:
+    - <code>docker-compose build && docker-compose up</code>
+
 ## Commit + Push to github, Watch Your Workflow in Actions tab 
 *** <b>(push changes to MASTER / the branch you want the deploy to happen at )</b>  
 Visit Compue Engine -> VM Instances to view your app when workflow finished succesfully  
