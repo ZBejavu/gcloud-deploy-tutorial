@@ -39,7 +39,7 @@ deploy:
 	@$(MAKE) ssh-cmd CMD='\
 		docker run -d --name=$(CONTAINER_NAME) \
 			--restart=unless-stopped \
-			--network crm-net \
+			--network my-network \
 			-e MYSQL_HOST=${DB_HOST} \
 			-e MYSQL_DATABASE=${DB_NAME} \
 			-e MYSQL_USER=${DB_USER} \
@@ -50,7 +50,7 @@ deploy:
 	@echo "Good Job Deploy Succeded !"
 
 network-init:
-	$(MAKE) ssh-cmd CMD='docker network create crm-net'
+	$(MAKE) ssh-cmd CMD='docker network create my-network'
 
 create-firewall-rule:
 	@gcloud compute firewall-rules create default-allow-http-${SERVER_PORT} \
@@ -61,11 +61,11 @@ create-firewall-rule:
 
 sql-init:
 	$(MAKE) ssh-cmd CMD=' \
-	docker run --name=mysql \
+	docker run --name=${DB_HOST} \
 	-e MYSQL_ROOT_PASSWORD=${DB_PASS} \
 	-e MYSQL_DATABASE=${DB_NAME} \
 	-e MYSQL_USER=${DB_USER} \
 	-e MYSQL_PASSWORD=${DB_PASS} \
-	--network crm-net \
+	--network my-network \
 	-d mysql:8 \
 	'
