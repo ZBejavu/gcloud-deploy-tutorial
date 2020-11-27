@@ -27,7 +27,10 @@
 - GOOGLE_APPLICATION_CREDENTIALS -> Paste the contents of your key.b64 file
 - PROJECT_ID -> Your project id 
 - SERVICE_ACCOUNT -> The full email that represents your service account
-- ADD all the secrets your project need in order to run !!!
+- ENV_FILE -> If needed: PASTE the contents of your .env file ( All additional secrets your project needs )  
+* Do not override database variables in ENV_FILE.
+
+![ENV_FILE-example](./images/ENV_FILE-example.png)
 
 <a href="https://console.cloud.google.com/flows/enableapi?apiid=containerregistry.googleapis.com,compute.googleapis.com">Enable Compute Engine API + Container Registry For Your Project</a>
 
@@ -38,10 +41,6 @@ open your project in vscode, in your root directory run ->
 - Copy -> into your project root folder :
     - .github folder with its contents
     - Dockerfile, docker-compose, Makefile, .dockerignore
-- IMPORTANT -> If you added additional Secrets, you will need to add them to the files:
-    - Docker-Deploy.yml under the 'env' section.
-    - In the Makefile inside the docker run command (line 43) 
-    
 - Create a script in your Server Package.json file as described in the Dockerfile.
 - Configure Your Sequelize Config as Shown in the examples/config folder
 - MAKE SURE your server Serves the Build files as Shown in the examples/server/app.js
@@ -49,6 +48,9 @@ open your project in vscode, in your root directory run ->
     1. The Deploy Branch (deploy will happen when you push to that branch)
     2. Name your Instance (GCE_INSTANCE Variable)
     3. Enter your SERVER_PORT
+- If you Added ENV_FILE -
+    - Unmark Steps In Docker-Compose.yml That are titled 'Enable when using ENV_FILE'
+    - Add the line `--env-file=.env \` in Makefile as Specified (line 49)
 - Delete the 'gcloud-deploy-tutorial' directory when you've finished setting up.
 
 ** The Dockerfile and workflow were both made for client folder named 'client' and server folder named 'server'  

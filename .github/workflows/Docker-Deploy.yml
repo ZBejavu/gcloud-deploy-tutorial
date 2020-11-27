@@ -14,8 +14,8 @@ env:
   DB_USER: ${{ secrets.DB_USER }}
   DB_HOST: ${{ secrets.DB_HOST }}
   DB_NAME: ${{ secrets.DB_NAME }}
+  ENV_FILE: ${{ secrets.ENV_FILE }} # Secret with all additional environment variables.
   SERVER_PORT: 8080 # the port your server is running on
-  # SECRET_NAME: ${{ secrets.SECRET_NAME}} # ADD all additional Secrets Here
 
 jobs:
   setup-build-publish-deploy:
@@ -33,12 +33,12 @@ jobs:
         service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         project_id: ${{ secrets.PROJECT_ID }}    
 
-    # helper for authentication
+    # Helper for authentication
     - name: Configure Docker to use gcloud command-line
       run: gcloud --quiet auth configure-docker
 
     # Create a new instance -> MARK IT OUT AFTER FIRST DEPLOY
-    - name: Create Instance #for first time setup
+    - name: Create Instance 
       run: make create
 
     # Create Rule To allow access to the port your app is running on.
@@ -57,6 +57,16 @@ jobs:
       run: CI=false INLINE_RUNTIME_CHUNK=false npm run build
       working-directory: ./client
 
+    # # Enable When using ENV_FILE Secret
+    # - name: Create .env file from Secret
+    #   run: |
+    #     file=".env"
+    #     echo "$ENV_FILE" > $file
+
+    # # Enable When using ENV_FILE Secret
+    # - name: Send .env File
+    #   run: gcloud compute scp .env --zone $GCE_INSTANCE_ZONE $GCE_INSTANCE:~
+
     # Build the Docker image
     - name: Build image
       run: make build
@@ -68,3 +78,7 @@ jobs:
     # Deploy Container to Gcloud Instance
     - name: deploy
       run: make deploy
+
+    # # Enable When using ENV_FILE Secret
+    # - name: Remove .env File
+    #   run: make remove-env
