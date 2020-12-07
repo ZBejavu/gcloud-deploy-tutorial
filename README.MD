@@ -70,7 +70,8 @@ visit the external-ip:yourportnumber to view your application
 
 ### After instance Creation & Firewall Rule Creation -
 - Mark out the Firewall Rule in Docker-Deploy.yml
-- Mark out the 'Create instance' in Docker-Deploy.yml  
+- Mark out the 'Create instance' in Docker-Deploy.yml
+- Mark out the 'Initialize Environment' in Docker-Deploy.yml  
 ** these steps are only designed for first time use.
 
 ``` yml
@@ -83,6 +84,13 @@ visit the external-ip:yourportnumber to view your application
     # # ONLY INCLUDE if it doesnt already exist for SERVER_PORT !!
     # - name: Create Firewall Rule
     #   run: make create-firewall-rule
+    .
+    .
+    .
+    # # ONLY first time setup
+    # # Initialize Envoironment in Gcloud Instance
+    # - name: Initialize volumes, network and other Containers that don't change
+    #   run: make initialize
 ```
 
 ** Friendly tip : Make sure all migration table names are consistent.

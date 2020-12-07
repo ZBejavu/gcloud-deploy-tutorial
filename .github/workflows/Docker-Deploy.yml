@@ -59,9 +59,7 @@ jobs:
 
     # # Enable When using ENV_FILE Secret
     # - name: Create .env file from Secret
-    #   run: |
-    #     file=".env"
-    #     echo "$ENV_FILE" > $file
+    #   run: echo "$ENV_FILE" > .env
 
     # # Enable When using ENV_FILE Secret
     # - name: Send .env File
