@@ -43,9 +43,9 @@ jobs:
 
     # Create Rule To allow access to the port your app is running on.
 
-    # ONLY INCLUDE if it doesnt already exist for SERVER_PORT !!
-    - name: Create Firewall Rule
-      run: make create-firewall-rule
+    # # ONLY INCLUDE if it doesnt already exist for SERVER_PORT !!
+    # - name: Create Firewall Rule
+    #   run: make create-firewall-rule
 
     # Install Dependencies (So the Docker Image Has The Latest Client Version)
     - name: Install dependencies
@@ -74,6 +74,11 @@ jobs:
     # Push the Docker image to Google Container Registry
     - name: Publish image
       run: make push
+
+    # ONLY first time setup
+    # Initialize Envoironment in Gcloud Instance
+    - name: Initialize volumes, network and other Containers that don't change
+      run: make initialize
 
     # Deploy Container to Gcloud Instance
     - name: deploy
