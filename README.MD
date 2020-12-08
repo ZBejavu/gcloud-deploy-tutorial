@@ -22,7 +22,8 @@
     - linux: `	base64 key.json > key.b64`
     - macOs: `	base64 -i key.json -o key.b64`
 4. Head over to your repository on github, go to Settings -> Secrets and ADD the following Secrets :
-(In this Format)
+(In this Format)  
+
 ![ENV_FILE-example](./images/NORMAL-ENV.png) 
 - DB_HOST -> MySql Host name (of your choice)
 - DB_PASS -> MySql Password (of your choice)
