@@ -12,7 +12,9 @@
         1. Compute Admin
         2. Compute Instance Admin (v1)
         3. Service Account User
-        4. Storage Admin
+        4. Storage Admin  
+        
+![ENV_FILE-example](./images/SERVICE_ACCOUNT-instructions.png)
 3. Create a Key for the service account you've created -> Select in JSON format.
     1. Change filename to "key.json" and use your terminal cd into the folder where your key was downloaded.
     2. Encrypt the file -> 
@@ -20,6 +22,8 @@
     - linux: `	base64 key.json > key.b64`
     - macOs: `	base64 -i key.json -o key.b64`
 4. Head over to your repository on github, go to Settings -> Secrets and ADD the following Secrets :
+(In this Format)
+![ENV_FILE-example](./images/NORMAL-ENV.png) 
 - DB_HOST -> MySql Host name (of your choice)
 - DB_PASS -> MySql Password (of your choice)
 - DB_NAME -> MySql Database (of your choice)
