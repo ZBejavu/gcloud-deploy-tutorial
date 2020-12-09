@@ -56,7 +56,7 @@ open your project in vscode, in your root directory run ->
     3. Enter your SERVER_PORT
 - If you Added ENV_FILE -
     - Unmark Steps In Docker-Compose.yml That are titled 'Enable when using ENV_FILE'
-    - Add the line `--env-file=.env \` in Makefile as Specified (line 49)
+    - Add the line `--env-file=.env \` in Makefile as Specified (line 67)
 - Delete the 'gcloud-deploy-tutorial' directory when you've finished setting up.
 
 ** The Dockerfile and workflow were both made for client folder named 'client' and server folder named 'server'  
