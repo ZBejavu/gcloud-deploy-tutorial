@@ -79,7 +79,7 @@ initialize:
 	$(MAKE) network-init
 	@echo "creating volume for database..."
 	$(MAKE) volume-create
-	@echo "initializing sql (if exists, continue on error)..."
+	@echo "initializing sql ..."
 	$(MAKE) sql-init
 
 deploy: 
