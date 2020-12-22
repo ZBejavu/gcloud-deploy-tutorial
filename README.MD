@@ -3,7 +3,8 @@
 ### Automatically Deploy on every event (default is push) to the branch of your choice.
 
 
-
+## If you want to use Cloud Sql :
+This Branch runs SQL inside the Compue Engine VM. for cloud SQL usage -> switch to cloud-sql branch
 ## steps:
 1. Create a Google Cloud Project -> use your free trial and make sure the account has billing. 
 2. Create a Service Account User :
