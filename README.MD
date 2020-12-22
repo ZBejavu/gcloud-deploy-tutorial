@@ -49,7 +49,7 @@
 <a href="https://console.cloud.google.com/flows/enableapi?apiid=containerregistry.googleapis.com,compute.googleapis.com">Enable Compute Engine API + Container Registry For Your Project</a>
 
 open your project in vscode, in your root directory run ->  
-` git clone https://github.com/ZBejavu/gcloud-deploy-tutorial.git `
+` git clone https://github.com/ZBejavu/gcloud-deploy-tutorial --branch cloud-sql `
 
 ## Adaptations :
 - Copy -> into your project root folder :
