@@ -34,33 +34,13 @@ create-firewall-rule:
 remove-env:
 	$(MAKE) ssh-cmd CMD='rm .env'
 
-network-init:
-	$(MAKE) ssh-cmd CMD='docker network create $(NETWORK_NAME)'
-
-volume-create:
-	$(MAKE) ssh-cmd CMD='docker volume create db-data'
-
 remove-images:
 	@$(MAKE) ssh-cmd CMD='docker image prune -a -f'
-
-sql-init:
-	$(MAKE) ssh-cmd CMD=' \
-		docker run --name=${DB_HOST} \
-			--restart=unless-stopped \
-			-v db-data:/var/lib/mysql \
-			-e MYSQL_ROOT_PASSWORD=${DB_PASS} \
-			-e MYSQL_DATABASE=${DB_NAME} \
-			-e MYSQL_USER=${DB_USER} \
-			-e MYSQL_PASSWORD=${DB_PASS} \
-			--network=$(NETWORK_NAME) \
-			-d mysql:8 \
-			'
 
 start-app:
 	@$(MAKE) ssh-cmd CMD='\
 		docker run -d --name=$(CONTAINER_NAME) \
 			--restart=unless-stopped \
-			--network=$(NETWORK_NAME) \
 			-e MYSQL_HOST=${DB_HOST} \
 			-e MYSQL_DATABASE=${DB_NAME} \
 			-e MYSQL_USER=${DB_USER} \
@@ -74,12 +54,6 @@ start-app:
 initialize:
 	@echo "configuring vm to use docker commands"
 	$(MAKE) ssh-cmd CMD='docker-credential-gcr configure-docker'
-	@echo "creating network..."
-	$(MAKE) network-init
-	@echo "creating volume for database..."
-	$(MAKE) volume-create
-	@echo "initializing sql ..."
-	$(MAKE) sql-init
 
 deploy: 
 	@echo "pulling image..."

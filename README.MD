@@ -4,9 +4,18 @@
 
 
 
-## steps:
-1. Create a Google Cloud Project -> use your free trial and make sure the account has billing. 
-2. Create a Service Account User :
+# steps:
+## 1. Create a Google Cloud Project -> use your free trial and make sure the account has billing.
+
+## 2. Create a Cloud SQL instance (If one Does not already exist) :
+- <a href="https://console.cloud.google.com/sql/" target="_blank">https://console.cloud.google.com/sql/</a>
+- Choose "Create Instance" -> "Choose MySQL" -> Fill in the information
+    ![ENV_FILE-example](./images/create-instance.png) 
+- Use the navigation bar -> Databases -> create a database for your app.    (DB_NAME variable for later)
+- ![ENV_FILE-example](./images/create-db.png) 
+- in the overview tab:
+- ![ENV_FILE-example](./images/ip-location.png) 
+## 2. Create a Service Account User :
     - Go to the I AM & ADMIN -> Service Accounts -> Create Service Account
     - Give it a name and Add the following Roles :
         1. Compute Admin
@@ -16,20 +25,19 @@
         
 ![ENV_FILE-example](./images/SERVICE_ACCOUNT-instructions.png)  
 
-3. Create a Key for the service account you've created -> Select in JSON format.  
+4. Create a Key for the service account you've created -> Select in JSON format.  
     1. Change filename to "key.json". Then use your terminal, cd into the folder where your key was downloaded.  
     2. Encrypt the file ->  
         - windows: `certutil -encode key.json tmp.b64 && findstr /v /c:- tmp.b64 > key.b64`  
         - linux: `	base64 key.json > key.b64`  
         - macOs: `	base64 -i key.json -o key.b64`  
-4. Head over to your repository on github, go to Settings -> Secrets and ADD the following Secrets :
+5. Head over to your repository on github, go to Settings -> Secrets and ADD the following Secrets :
 (In this Format)  
 
 ![ENV_FILE-example](./images/NORMAL-ENV.png) 
-- DB_HOST -> MySql Host name (of your choice)
-- DB_PASS -> MySql Password (of your choice)
-- DB_NAME -> MySql Database (of your choice)
-- DB_USER -> MySql User (of your choice)
+- DB_HOST -> cloud sql instance ip
+- DB_PASS -> cloud sql instance password
+- DB_NAME -> name of the db created
 - GOOGLE_APPLICATION_CREDENTIALS -> Paste the contents of your key.b64 file
 - PROJECT_ID -> Your project id 
 - SERVICE_ACCOUNT -> The full email that represents your service account
@@ -72,13 +80,19 @@ open your project in vscode, in your root directory run ->
 ## Commit + Push to github, Watch Your Workflow in Actions tab 
 *** <b>(push changes to MASTER / the branch you want the deploy to happen at )</b>  
 Visit Compue Engine -> VM Instances to view your app when workflow finished succesfully  
+- Copy the external-ip and got over to the cloud SQL instance page -> connections tab.
+- add a new connection with your instance ip address.
+![ENV_FILE-example](./images/allow-db-connection.png) 
+
 visit the external-ip:yourportnumber to view your application
+
 
 ### After instance Creation & Firewall Rule Creation -
 - Mark out the Firewall Rule in Docker-Deploy.yml
 - Mark out the 'Create instance' in Docker-Deploy.yml
 - Mark out the 'Initialize Environment' in Docker-Deploy.yml  
 ** these steps are only designed for first time use.
+
 
 ``` yml
     # # Create a new instance -> MARK IT OUT AFTER FIRST DEPLOY
@@ -95,7 +109,7 @@ visit the external-ip:yourportnumber to view your application
     .
     # # ONLY first time setup
     # # Initialize Envoironment in Gcloud Instance
-    # - name: Initialize volumes, network and other Containers that don't change
+    # - name: Initialize communication with gcr
     #   run: make initialize
 ```
 

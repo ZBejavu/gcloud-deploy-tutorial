@@ -11,7 +11,7 @@ env:
   GCE_INSTANCE_ZONE: us-central1-a   # TODO: update to instance zone if needed
   SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }} # The service account user you created
   DB_PASS: ${{ secrets.DB_PASS }}
-  DB_USER: ${{ secrets.DB_USER }}
+  DB_USER: root
   DB_HOST: ${{ secrets.DB_HOST }}
   DB_NAME: ${{ secrets.DB_NAME }}
   ENV_FILE: ${{ secrets.ENV_FILE }} # Secret with all additional environment variables.
@@ -75,7 +75,7 @@ jobs:
 
     # ONLY first time setup
     # Initialize Envoironment in Gcloud Instance
-    - name: Initialize volumes, network and other Containers that don't change
+    - name: Initialize communication with gcr
       run: make initialize
 
     # Deploy Container to Gcloud Instance
