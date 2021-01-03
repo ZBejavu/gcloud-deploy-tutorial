@@ -14,9 +14,11 @@
 - Choose "Create Instance" -> "Choose MySQL" -> Fill in the information
   ![ENV_FILE-example](./images/create-instance.png)
 - Use the navigation bar -> Databases -> create a database for your app. (DB_NAME variable for later)
-- ![ENV_FILE-example](./images/create-db.png)
+  ![ENV_FILE-example](./images/create-db.png)
+- in connections tab temporarily add a network which enables connections from all ip address, later to be replaced by your instance external ip.
+  ![ENV_FILE-example](./images/public-access.png)
 - in the overview tab:
-- ![ENV_FILE-example](./images/ip-location.png)
+  ![ENV_FILE-example](./images/ip-location.png)
 
 ## 2. Create a Service Account User :
 
@@ -26,7 +28,6 @@
         2. Compute Instance Admin (v1)
         3. Service Account User
         4. Storage Admin
-
 
 ![ENV_FILE-example](./images/SERVICE_ACCOUNT-instructions.png)
 
@@ -76,7 +77,8 @@ open your project in vscode, in your root directory run ->
 - Delete the 'gcloud-deploy-tutorial' directory when you've finished setting up.
 
 ** The Dockerfile and workflow were both made for client folder named 'client' and server folder named 'server'  
-** Change folder names if necessary, update Port number in the Dockerfile, compose file and Workflow file if needed.
+** Change folder names if necessary, update Port number in the Dockerfile, compose file and Workflow file if needed.  
+\*\* Friendly tip : Make sure all migration table names are consistent.
 
 ### Check To see Your Containerised app works :
 
@@ -94,10 +96,9 @@ Visit Compue Engine -> VM Instances to view your app when workflow finished succ
 - Copy the external-ip and got over to the cloud SQL instance page -> connections tab.
 - add a new connection with your instance ip address.
   ![ENV_FILE-example](./images/allow-db-connection.png)
+- remove your public-access network
 
 visit the external-ip:yourportnumber to view your application
-
-\*\* Friendly tip : Make sure all migration table names are consistent.
 
 ## Resources:
 
