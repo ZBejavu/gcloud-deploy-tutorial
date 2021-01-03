@@ -24,6 +24,10 @@ create:
 		--tags http-server \
 		--machine-type e2-medium
 
+create-and-initialize:
+	$(MAKE) create
+	$(MAKE) initialize
+
 create-firewall-rule:
 	@gcloud compute firewall-rules create default-allow-http-${SERVER_PORT} \
 		--allow tcp:${SERVER_PORT} \
@@ -52,7 +56,7 @@ start-app:
 # --env-file=.env \ 
 
 initialize:
-	@echo "configuring vm to use docker commands"
+	@echo "configuring vm to use docker commands with gcr"
 	$(MAKE) ssh-cmd CMD='docker-credential-gcr configure-docker'
 
 deploy: 
