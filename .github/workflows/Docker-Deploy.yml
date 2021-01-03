@@ -2,8 +2,7 @@ name: Build and Deploy to Google Compute Engine
 
 on:
   push:
-    branches:
-      - yourbranch # specify the branch you want the deploy to take place from
+    branches: [yourbranch] # specify the branch you want the deploy to take place from
 
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
