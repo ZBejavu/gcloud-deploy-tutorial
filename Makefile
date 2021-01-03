@@ -18,7 +18,7 @@ push:
 create:
 	@gcloud compute instances create ${GCE_INSTANCE} \
 		--image-project cos-cloud \
-		--image cos-stable-85-13310-1041-28 \
+		--image cos-stable-85-13310-1041-38 \
 		--zone $(ZONE) \
 		--service-account ${SERVICE_ACCOUNT} \
 		--tags http-server \

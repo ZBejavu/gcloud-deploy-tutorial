@@ -2,13 +2,12 @@ name: Build and Deploy to Google Compute Engine
 
 on:
   push:
-    branches:
-    - yourbranch # specify the branch you want the deploy to take place from
+    branches: [yourbranch] # specify the branch you want the deploy to take place from
 
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
-  GCE_INSTANCE: instance-docker   # TODO: name your instance
-  GCE_INSTANCE_ZONE: us-central1-a   # TODO: update to instance zone if needed
+  GCE_INSTANCE: instance-docker # TODO: name your instance
+  GCE_INSTANCE_ZONE: us-central1-a # TODO: update to instance zone if needed
   SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }} # The service account user you created
   DB_PASS: ${{ secrets.DB_PASS }}
   DB_USER: ${{ secrets.DB_USER }}
@@ -23,65 +22,67 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@master
-      with:
-        version: '290.0.1' # optional, if not provided -> resolves to latest version
-        service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        project_id: ${{ secrets.PROJECT_ID }}    
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: "290.0.1" # optional, if not provided -> resolves to latest version
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          project_id: ${{ secrets.PROJECT_ID }}
 
-    # Helper for authentication
-    - name: Configure Docker to use gcloud command-line
-      run: gcloud --quiet auth configure-docker
+      # Helper for authentication
+      - name: Configure Docker to use gcloud command-line
+        run: gcloud --quiet auth configure-docker
 
-    # Create a new instance -> MARK IT OUT AFTER FIRST DEPLOY
-    - name: Create Instance 
-      run: make create
+      - name: Create and initialize Instance If it doesn't exist
+        run: |
+          if [ "$(gcloud compute instances list --filter="name=($GCE_INSTANCE)")" = "" ]; then
+            make create
+            make initialize
+          else
+            echo "instance already exists"
+          fi
 
-    # Create Rule To allow access to the port your app is running on.
+      - name: Create firewall rule If it doesn't exist
+        run: |
+          if [ "$(gcloud compute firewall-rules list --format=json --filter="targetTags=(http-server) AND allowed[ports]=($SERVER_PORT)")" = "[]" ]; then
+            make create-firewall-rule
+          else
+            echo "firewall rule already exists"
+          fi
 
-    # # ONLY INCLUDE if it doesnt already exist for SERVER_PORT !!
-    # - name: Create Firewall Rule
-    #   run: make create-firewall-rule
+      # Install Dependencies (So the Docker Image Has The Latest Client Version)
+      - name: Install dependencies
+        run: npm ci --only=production
+        working-directory: ./client
 
-    # Install Dependencies (So the Docker Image Has The Latest Client Version)
-    - name: Install dependencies
-      run: npm ci --only=production
-      working-directory: ./client
+      # Build production build (So the Docker Image Has The Latest Build Version)
+      - name: Create production build
+        run: CI=false INLINE_RUNTIME_CHUNK=false npm run build
+        working-directory: ./client
 
-    # Build production build (So the Docker Image Has The Latest Build Version)
-    - name: Create production build
-      run: CI=false INLINE_RUNTIME_CHUNK=false npm run build
-      working-directory: ./client
+      # # Enable When using ENV_FILE Secret
+      # - name: Create .env file from Secret
+      #   run: echo "$ENV_FILE" > .env
 
-    # # Enable When using ENV_FILE Secret
-    # - name: Create .env file from Secret
-    #   run: echo "$ENV_FILE" > .env
+      # # Enable When using ENV_FILE Secret
+      # - name: Send .env File
+      #   run: gcloud compute scp .env --zone $GCE_INSTANCE_ZONE $GCE_INSTANCE:~
 
-    # # Enable When using ENV_FILE Secret
-    # - name: Send .env File
-    #   run: gcloud compute scp .env --zone $GCE_INSTANCE_ZONE $GCE_INSTANCE:~
+      # Build the Docker image
+      - name: Build image
+        run: make build
 
-    # Build the Docker image
-    - name: Build image
-      run: make build
+      # Push the Docker image to Google Container Registry
+      - name: Publish image
+        run: make push
 
-    # Push the Docker image to Google Container Registry
-    - name: Publish image
-      run: make push
+      # Deploy Container to Gcloud Instance
+      - name: deploy
+        run: make deploy
 
-    # ONLY first time setup
-    # Initialize Envoironment in Gcloud Instance
-    - name: Initialize volumes, network and other Containers that don't change
-      run: make initialize
-
-    # Deploy Container to Gcloud Instance
-    - name: deploy
-      run: make deploy
-
-    # # Enable When using ENV_FILE Secret
-    # - name: Remove .env File
-    #   run: make remove-env
+      # # Enable When using ENV_FILE Secret
+      # - name: Remove .env File
+      #   run: make remove-env
