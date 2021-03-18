@@ -6,7 +6,7 @@
 
 ## If you want to use Cloud Sql :
 
-This Branch runs SQL inside the Compue Engine VM. for cloud SQL usage -> switch to cloud-sql branch
+This Branch runs SQL inside the Compute Engine VM. for cloud SQL usage -> switch to cloud-sql branch
 
 ## steps:
 
